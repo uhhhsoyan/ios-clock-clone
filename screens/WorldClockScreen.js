@@ -8,7 +8,72 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
+const DATA = {
+    city: "San Francisco",
+    relativeHours: 2,
+}
+
+function ClockTable({  }) {
+    
+    return (
+        <ScrollView style={styles.scrollView}>
+            {laps.map((lap, index) => (
+                <Lap
+                    number={laps.length - index}
+                    key={laps.length - index}
+                    interval={index === 0 ? timer + lap : lap}
+                    slowest={lap === max}
+                    fastest={lap === min}
+                />
+            ))}
+        </ScrollView>
+    )
+}
+
+function Clock({ date }) {
+    let hours , ampm
+    if (date.getHours() === 0) {
+        hours = 12
+        ampm = "AM"
+    } else if (date.getHours() < 13) {
+        hours = date.getHours()
+        ampm = "AM"
+    } else {
+        hours = date.getHours() % 12
+        ampm = "PM"
+    }
+    const pad = (n) => n < 10 ? '0' + n : n
+    return (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch', alignItems: 'center' }}>
+            <View>
+                <Text style={styles.relTimeText}>{`Today, +${DATA.relativeHours}HRS`}</Text>
+                <Text style={styles.cityText}>{DATA.city}</Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.clockText}>{hours}</Text>
+                <Text style={styles.clockText}>:</Text>
+                <Text style={styles.clockText}>{pad(date.getMinutes())}</Text>
+                <Text style={styles.clockAMPM}>{ampm}</Text>
+            </View>
+        </View>
+    )
+}
+
+
+
 class WorldClockScreen extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            date: new Date()
+        }
+    }  
+    componentDidMount() {
+        setInterval(() => {
+            this.setState({ date: new Date() })
+        }, 1000)
+    }
+    
     static navigationOptions = {
         title: 'World Clock',
         headerStyle: {
@@ -20,11 +85,10 @@ class WorldClockScreen extends Component {
         },
     };
     render() {
+        const { date } = this.state
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>
-                    WorldClockScreen
-                </Text>
+                <Clock date={date}/>
             </View>
         )
     }
@@ -35,14 +99,29 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#0D0D0D',
         alignItems: 'center',
-        paddingTop: 130,
+        paddingTop: 10,
         paddingHorizontal: 20,
     },
-    text: {
-        color: '#FFFFFF',
-        fontSize: 38,
-        fontWeight: '100',
+    relTimeText: {
+        color: '#7F7F7F',
+        fontSize: 14,
+        fontWeight: '200'
     },
+    cityText: {
+        color: '#FFFFFF',
+        fontSize: 24,
+        fontWeight: '300',
+    },
+    clockText: {
+        color: '#FFFFFF',
+        fontSize: 56,
+        fontWeight: '200',
+    },
+    clockAMPM: {
+        color: '#FFFFFF',
+        fontSize: 24,
+        fontWeight: '300', 
+    }
 })
 
 export default WorldClockScreen

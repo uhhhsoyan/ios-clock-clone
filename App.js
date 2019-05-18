@@ -35,12 +35,11 @@ const TimerStack = createStackNavigator({
 
 const TopLevelNavigator = createBottomTabNavigator(
   {
-    timer: TimerStack,
     worldclock: WorldClockStack,
     alarm: AlarmStack,
     bedtime: BedtimeStack,
     stopwatch: StopwatchStack,
-    //timer: TimerStack,
+    timer: TimerStack,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
