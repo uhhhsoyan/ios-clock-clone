@@ -4,9 +4,10 @@ import {
     Text,
     View,
     ScrollView,
-    TouchableOpacity
+    Button
 } from 'react-native';
-import moment from 'moment';
+//import NavigationService from '../navigation/NavigationService';
+var moment = require('moment-timezone');
 
 const DATA = {
     city: "San Francisco",
@@ -49,7 +50,7 @@ function Clock({ date }) {
                 <Text style={styles.relTimeText}>{`Today, +${DATA.relativeHours}HRS`}</Text>
                 <Text style={styles.cityText}>{DATA.city}</Text>
             </View>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                 <Text style={styles.clockText}>{hours}</Text>
                 <Text style={styles.clockText}>:</Text>
                 <Text style={styles.clockText}>{pad(date.getMinutes())}</Text>
@@ -74,18 +75,35 @@ class WorldClockScreen extends Component {
         }, 1000)
     }
     
-    static navigationOptions = {
-        title: 'World Clock',
-        headerStyle: {
-            backgroundColor: '#181818',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'World Clock',
+            headerStyle: {
+                backgroundColor: '#181818',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerRight: (
+                <Button
+                    onPress={() => navigation.navigate('WorldClockAdd')}
+                    title="+"
+                    color='#FF9500'
+                />
+            ),
+            headerLeft: (
+                <Button 
+                    onPress={() => alert("This button is not hooked up!")}
+                    title="Edit"
+                    color='#FF9500'
+                />
+            )
+        }
     };
     render() {
         const { date } = this.state
+        console.log(moment.tz.names())
         return (
             <View style={styles.container}>
                 <Clock date={date}/>

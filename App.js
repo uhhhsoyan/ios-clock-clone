@@ -8,6 +8,7 @@ import NavigationService from './navigation/NavigationService';
 import { Ionicons } from '@expo/vector-icons'
 
 import WorldClockScreen from './screens/WorldClockScreen';
+import AddClockScreen from './screens/AddClockScreen';
 import AlarmScreen from './screens/AlarmScreen';
 import BedtimeScreen from './screens/BedtimeScreen';
 import StopwatchScreen from './screens/StopwatchScreen';
@@ -15,6 +16,7 @@ import TimerScreen from './screens/TimerScreen';
 
 const WorldClockStack = createStackNavigator({
   WorldClock: WorldClockScreen,
+  WorldClockAdd: AddClockScreen
 });
 
 const AlarmStack = createStackNavigator({
