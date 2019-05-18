@@ -6,7 +6,6 @@ import {
     ScrollView,
     Button
 } from 'react-native';
-//import NavigationService from '../navigation/NavigationService';
 var moment = require('moment-timezone');
 
 const DATA = {
@@ -60,8 +59,6 @@ function Clock({ date }) {
     )
 }
 
-
-
 class WorldClockScreen extends Component {
     constructor(props) {
         super(props)
@@ -103,7 +100,7 @@ class WorldClockScreen extends Component {
     };
     render() {
         const { date } = this.state
-        console.log(moment.tz.names())
+        //console.log(moment.tz.names())
         return (
             <View style={styles.container}>
                 <Clock date={date}/>
@@ -139,7 +136,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 24,
         fontWeight: '300', 
-    }
+    },
 })
 
 export default WorldClockScreen

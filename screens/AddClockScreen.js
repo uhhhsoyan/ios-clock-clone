@@ -6,7 +6,30 @@ import {
     ScrollView,
     TouchableOpacity
 } from 'react-native';
-import moment from 'moment';
+var moment = require('moment-timezone');
+
+const timezones = moment.tz.names();
+
+function ClockLookupTable({ timezones }) {
+    return (
+        <ScrollView style={styles.scrollView}>
+            {timezones.map((tz, index) => (
+                <ClockLookupRow 
+                    city={tz}
+                    key={index}
+                />
+            ))}
+        </ScrollView>
+    )
+}
+
+function ClockLookupRow({ city }) {
+    return (
+        <View style={styles.clockLookupRow}>
+            <Text style={styles.clockLookupText}>{city}</Text>
+        </View>
+    )
+}
 
 class AddClockScreen extends Component {
     static navigationOptions = {
@@ -22,9 +45,7 @@ class AddClockScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>
-                    BedtimeScreen
-                </Text>
+                <ClockLookupTable timezones={timezones} />
             </View>
         )
     }
@@ -35,13 +56,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#0D0D0D',
         alignItems: 'center',
-        paddingTop: 130,
+        paddingTop: 20,
         paddingHorizontal: 20,
     },
     text: {
         color: '#FFFFFF',
         fontSize: 38,
         fontWeight: '100',
+    },
+    scrollView: {
+        alignSelf: 'stretch',
+    },
+    clockLookupRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderColor: '#151515',
+        borderTopWidth: 1,
+        paddingVertical: 10,
+    },
+    clockLookupText: {
+        color: '#FFFFFF',
+        fontSize: 18,
     },
 })
 
