@@ -9,27 +9,37 @@ import {
 var moment = require('moment-timezone');
 
 const timezones = moment.tz.names();
+//console.log(moment.tz("America/Los_Angeles").format())
+//console.log(moment.tz.zone('America/Los_Angeles').untils)
 
 function ClockLookupTable({ timezones }) {
     return (
         <ScrollView style={styles.scrollView}>
-            {timezones.map((tz, index) => (
-                <ClockLookupRow 
-                    city={tz}
-                    key={index}
-                />
-            ))}
+            {timezones.map((tz, index) => {
+                return (
+                    <ClockLookupRow 
+                        cityName={tz.split('/').reverse().join(', ')}
+                        lookupID={tz}
+                        key={index}
+                    />
+                )
+            })}
         </ScrollView>
     )
 }
 
-function ClockLookupRow({ city }) {
+function ClockLookupRow({ cityName, lookupID }) {
     return (
-        <View style={styles.clockLookupRow}>
-            <Text style={styles.clockLookupText}>{city}</Text>
-        </View>
+        <TouchableOpacity onPress={() =>
+            console.log(moment.tz(`${lookupID}`).format('Z'))
+        }>
+            <View style={styles.clockLookupRow}>
+                <Text style={styles.clockLookupText}>{cityName}</Text>
+            </View>
+        </TouchableOpacity>
     )
 }
+
 
 class AddClockScreen extends Component {
     static navigationOptions = {

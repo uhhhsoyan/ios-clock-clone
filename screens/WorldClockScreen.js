@@ -30,21 +30,21 @@ function ClockTable({  }) {
     )
 }
 
-function Clock({ date }) {
+function Clock({ localDate }) {
     let hours , ampm
-    if (date.getHours() === 0) {
+    if (localDate.getHours() === 0) {
         hours = 12
         ampm = "AM"
-    } else if (date.getHours() < 13) {
-        hours = date.getHours()
+    } else if (localDate.getHours() < 13) {
+        hours = localDate.getHours()
         ampm = "AM"
     } else {
-        hours = date.getHours() % 12
+        hours = localDate.getHours() % 12
         ampm = "PM"
     }
     const pad = (n) => n < 10 ? '0' + n : n
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch', alignItems: 'center' }}>
+        <View style={styles.clockRow}>
             <View>
                 <Text style={styles.relTimeText}>{`Today, +${DATA.relativeHours}HRS`}</Text>
                 <Text style={styles.cityText}>{DATA.city}</Text>
@@ -52,7 +52,7 @@ function Clock({ date }) {
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                 <Text style={styles.clockText}>{hours}</Text>
                 <Text style={styles.clockText}>:</Text>
-                <Text style={styles.clockText}>{pad(date.getMinutes())}</Text>
+                <Text style={styles.clockText}>{pad(localDate.getMinutes())}</Text>
                 <Text style={styles.clockAMPM}>{ampm}</Text>
             </View>
         </View>
@@ -63,12 +63,13 @@ class WorldClockScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            date: new Date()
+            localDate: new Date(),
+            //localTimeZone: moment.tz 
         }
     }  
     componentDidMount() {
         setInterval(() => {
-            this.setState({ date: new Date() })
+            this.setState({ localDate: new Date() })
         }, 1000)
     }
     
@@ -99,11 +100,11 @@ class WorldClockScreen extends Component {
         }
     };
     render() {
-        const { date } = this.state
+        const { localDate } = this.state
         //console.log(moment.tz.names())
         return (
             <View style={styles.container}>
-                <Clock date={date}/>
+                <Clock localDate={localDate}/>
             </View>
         )
     }
@@ -137,6 +138,14 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '300', 
     },
+    clockRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        borderColor: '#151515',
+        borderBottomWidth: 1,
+    }
 })
 
 export default WorldClockScreen
